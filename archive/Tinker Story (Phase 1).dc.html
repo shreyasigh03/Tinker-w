@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>Tinker — An AI that uses your Mac</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Tinker is an AI-powered desktop assistant for macOS. Watch it open apps, answer questions, and act on your Mac — right from a floating orb.">
+  <meta property="og:title" content="Tinker — An AI that uses your Mac">
+  <meta property="og:url" content="https://tinkerdesktop.com">
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: #050508; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    a { color: #A7B4C4; text-decoration: none; }
+    a:hover { color: #F2F4F8; }
+    @keyframes orbIdle {
+      0%, 100% { box-shadow: 0 6px 24px rgba(0,0,0,0.35), 0 0 24px rgba(110,123,242,0.45); }
+      50% { box-shadow: 0 6px 24px rgba(0,0,0,0.35), 0 0 40px rgba(110,123,242,0.7); }
+    }
+    @keyframes dotBounce {
+      0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+      40% { transform: translateY(-4px); opacity: 1; }
+    }
+    @keyframes caretBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    @keyframes hintDrift { 0%, 100% { transform: translateY(0); opacity: 0.6; } 50% { transform: translateY(6px); opacity: 1; } }
+  </style>
+</helmet>
+
+<div data-screen-label="Tinker Cinematic Story" style="background: #050508; color: #F2F4F8; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, sans-serif; overflow-x: clip;">
+
+  <!-- ═══════ PINNED SCROLL DRIVER ═══════ -->
+  <div ref="{{ driverRef }}" style="position: relative; height: {{ driverHeight }};">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden;">
+
+      <!-- ambient room light -->
+      <div aria-hidden="true" style="position: absolute; inset: 0; background: radial-gradient(900px 480px at 50% 30%, rgba(96,104,220,{{ ambientGlow }}), transparent 70%);"></div>
+
+      <!-- headline 1 -->
+      <div aria-hidden="{{ h1Hidden }}" style="position: absolute; left: 50%; top: 16%; transform: translate(-50%, {{ h1Shift }}); opacity: {{ h1Opacity }}; text-align: center; z-index: 5; pointer-events: none;">
+        <h1 style="font-size: clamp(36px, 6vw, 64px); font-weight: 650; letter-spacing: -0.035em; margin: 0;">Meet Tinker.</h1>
+      </div>
+
+      <!-- headline 2 -->
+      <div style="position: absolute; left: 50%; top: 10%; transform: translate(-50%, {{ h2Shift }}); opacity: {{ h2Opacity }}; text-align: center; z-index: 5; pointer-events: none; width: min(90vw, 640px);">
+        <p style="font-size: clamp(20px, 3vw, 30px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.3; margin: 0; text-wrap: balance;">An AI that doesn't just answer.<br><span style="color: #8B93F8;">It uses your Mac.</span></p>
+      </div>
+
+      <!-- scroll hint -->
+      <div style="position: absolute; left: 50%; bottom: 5%; transform: translateX(-50%); opacity: {{ hintOpacity }}; transition: opacity 0.3s ease; text-align: center; pointer-events: none; z-index: 5;">
+        <p style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #6A7280; margin: 0 0 8px;">scroll</p>
+        <div style="width: 1px; height: 28px; background: linear-gradient(#6A7280, transparent); margin: 0 auto; animation: hintDrift 2s ease-in-out infinite;"></div>
+      </div>
+
+      <!-- ═══ MACBOOK ═══ -->
+      <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -37.5%) scale({{ laptopScale }}); width: 960px; z-index: 2;">
+        <div style="perspective: 1500px; perspective-origin: 50% 20%;">
+
+          <!-- LID -->
+          <div style="position: relative; width: 960px; height: 616px; transform: rotateX({{ lidAngle }}deg); transform-origin: 50% 100%; border-radius: 22px 22px 6px 6px; background: linear-gradient(180deg, #34363E, #1B1C22); box-shadow: 0 -1px 0 rgba(255,255,255,0.12) inset, 0 30px 80px rgba(0,0,0,0.55);">
+
+            <!-- screen (inside bezel) -->
+            <div style="position: absolute; inset: 12px; border-radius: 14px; overflow: hidden; background: linear-gradient(180deg, #101226, #0A0B18);">
+
+              <!-- wallpaper -->
+              <div aria-hidden="true" style="position: absolute; inset: 0; background: radial-gradient(700px 420px at 72% 8%, rgba(58,64,128,0.85), transparent 65%), radial-gradient(620px 420px at 18% 95%, rgba(74,52,124,0.7), transparent 65%), linear-gradient(180deg, #12142A, #090A16);"></div>
+
+              <!-- menu bar -->
+              <div style="position: absolute; top: 0; left: 0; right: 0; height: 26px; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; font-size: 11px; color: rgba(255,255,255,0.75); background: rgba(16,17,30,0.5); backdrop-filter: blur(10px);">
+                <div style="display: flex; gap: 14px; align-items: center;">
+                  <span style="font-weight: 700;"></span>
+                  <span style="font-weight: 600;">Finder</span>
+                  <span>File</span><span>Edit</span><span>View</span><span>Go</span><span>Window</span><span>Help</span>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                  <span>100%</span><span>Wed 9:41 AM</span>
+                </div>
+              </div>
+
+              <!-- dock -->
+              <div style="position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); display: flex; gap: 10px; align-items: center; padding: 8px 12px; border-radius: 16px; background: rgba(40,42,60,0.45); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.08);">
+                <span style="width: 36px; height: 36px; border-radius: 9px; background: linear-gradient(135deg, #4A90E2, #2E5C93); display: block;"></span>
+                <span style="width: 36px; height: 36px; border-radius: 9px; background: linear-gradient(135deg, #E8ECF2, #B8C0CC); display: block;"></span>
+                <span style="width: 36px; height: 36px; border-radius: 9px; background: linear-gradient(135deg, #66D06E, #2E9E4F); display: block;"></span>
+                <span style="width: 36px; height: 36px; border-radius: 9px; background: linear-gradient(135deg, #8B5CF6, #5B3FBF); display: block;"></span>
+                <span style="width: 36px; height: 36px; border-radius: 9px; background: linear-gradient(135deg, #F5A623, #D97706); display: block;"></span>
+                <span style="width: 36px; height: 36px; border-radius: 9px; background: linear-gradient(135deg, #FF6B6B, #C0392B); display: block;"></span>
+              </div>
+
+              <!-- ═══ TINKER ORB ═══ -->
+              <div style="position: absolute; right: 36px; bottom: 48px; width: 64px; height: 64px; opacity: {{ orbOpacity }}; transform: scale({{ orbScale }}); transition: transform 0.15s ease;">
+                <div style="width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle at 35% 28%, #EEF1FF, #98A0FA 45%, #5A5FEA 78%, #3E3FC9); animation: orbIdle 3s ease-in-out infinite;"></div>
+                <div aria-hidden="true" style="position: absolute; inset: -8px; border-radius: 50%; border: 2px solid rgba(139,147,248,0.7); opacity: {{ orbRingOpacity }}; transform: scale({{ orbRingScale }});"></div>
+              </div>
+
+              <!-- ═══ TINKER PANEL (recreated from screenshot) ═══ -->
+              <div style="position: absolute; right: 20px; bottom: 84px; width: 302px; height: 452px; transform: scale({{ panelScale }}); transform-origin: 94% 104%; opacity: {{ panelOpacity }}; border-radius: 24px; background: rgba(245,245,247,0.97); box-shadow: 0 24px 60px rgba(0,0,0,0.5); color: #1D1D1F; display: flex; flex-direction: column; overflow: hidden;">
+
+                <!-- header -->
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px 8px;">
+                  <div style="display: flex; align-items: center; gap: 9px;">
+                    <div style="position: relative; width: 30px; height: 30px;">
+                      <span style="width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle at 35% 28%, #EEF1FF, #98A0FA 45%, #5A5FEA 82%); display: block;"></span>
+                      <span aria-hidden="true" style="position: absolute; right: 0; bottom: 0; width: 9px; height: 9px; border-radius: 50%; background: #34C759; border: 2px solid #F5F5F7;"></span>
+                    </div>
+                    <div>
+                      <p style="font-size: 14px; font-weight: 700; margin: 0; line-height: 1.15;">Tinker</p>
+                      <p style="font-size: 10.5px; color: #1E8E3E; margin: 0; line-height: 1.2;">Online · ready to help</p>
+                    </div>
+                  </div>
+                  <span aria-hidden="true" style="width: 24px; height: 24px; border-radius: 50%; background: #E3E3E8; color: #6E6E73; display: flex; align-items: center; justify-content: center; font-size: 13px; line-height: 1;">×</span>
+                </div>
+
+                <!-- tabs -->
+                <div style="margin: 2px 12px 0; display: flex; padding: 3px; border-radius: 12px; background: #E4E4E9; font-size: 11.5px; font-weight: 600;">
+                  <span style="flex: 1; text-align: center; padding: 6px 0; border-radius: 9px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.1); color: #1D1D1F;">Chat</span>
+                  <span style="flex: 1; text-align: center; padding: 6px 0; color: #8A8A90;">Automations</span>
+                  <span style="flex: 1; text-align: center; padding: 6px 0; color: #8A8A90;">Settings</span>
+                </div>
+
+                <!-- body -->
+                <div style="position: relative; flex: 1; overflow: hidden;">
+
+                  <!-- greeting state -->
+                  <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 0 18px; opacity: {{ greetOpacity }}; transform: translateY({{ greetShift }});">
+                    <span aria-hidden="true" style="width: 54px; height: 54px; border-radius: 50%; background: radial-gradient(circle at 35% 28%, #EEF1FF, #98A0FA 45%, #5A5FEA 82%); box-shadow: 0 8px 20px rgba(90,95,234,0.35); display: block; margin-bottom: 6px;"></span>
+                    <p style="font-size: 19px; font-weight: 700; margin: 0; letter-spacing: -0.02em;">Good evening!</p>
+                    <p style="font-size: 12px; color: #86868B; text-align: center; line-height: 1.45; margin: 0 0 6px;">I'm Tinker. Talk or type in any language — I'll reply in the same one.</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 7px; justify-content: center;">
+                      <span style="font-size: 11px; font-weight: 500; background: #FFFFFF; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border-radius: 100px; padding: 7px 13px;">Open calculator</span>
+                      <span style="font-size: 11px; font-weight: 500; background: #FFFFFF; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border-radius: 100px; padding: 7px 13px;">What's the weather?</span>
+                      <span style="font-size: 11px; font-weight: 500; background: #FFFFFF; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border-radius: 100px; padding: 7px 13px;">Search Google</span>
+                      <span style="font-size: 11px; font-weight: 500; background: #FFFFFF; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border-radius: 100px; padding: 7px 13px;">How are you?</span>
+                      <span style="font-size: 11px; font-weight: 500; background: #FFFFFF; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border-radius: 100px; padding: 7px 13px;">Namaste</span>
+                    </div>
+                  </div>
+
+                  <!-- chat state -->
+                  <div style="position: absolute; inset: 0; padding: 12px 14px; opacity: {{ chatOpacity }}; overflow: hidden;">
+                    <div style="display: flex; flex-direction: column; gap: 10px; transform: translateY({{ chatScroll }});">
+                      <!-- user message -->
+                      <div style="align-self: flex-end; max-width: 85%; background: #5A5FEA; color: #FFFFFF; font-size: 12px; line-height: 1.45; padding: 8px 12px; border-radius: 14px 14px 4px 14px; opacity: {{ userMsgOpacity }}; transform: translateY({{ userMsgShift }});">Teach me arrays in simple terms</div>
+
+                      <!-- thinking -->
+                      <div style="align-self: flex-start; display: {{ thinkingDisplay }}; gap: 4px; background: #FFFFFF; padding: 10px 13px; border-radius: 14px 14px 14px 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); opacity: {{ thinkingOpacity }};">
+                        <span style="width: 6px; height: 6px; border-radius: 50%; background: #98A0FA; animation: dotBounce 1.2s 0s infinite; display: block;"></span>
+                        <span style="width: 6px; height: 6px; border-radius: 50%; background: #98A0FA; animation: dotBounce 1.2s 0.15s infinite; display: block;"></span>
+                        <span style="width: 6px; height: 6px; border-radius: 50%; background: #98A0FA; animation: dotBounce 1.2s 0.3s infinite; display: block;"></span>
+                      </div>
+
+                      <!-- answer -->
+                      <div style="align-self: flex-start; max-width: 94%; background: #FFFFFF; border-radius: 14px 14px 14px 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); padding: 12px 14px; display: {{ answerDisplay }}; flex-direction: column; gap: 9px;">
+                        <div style="opacity: {{ a1o }}; transform: translateY({{ a1s }});">
+                          <p style="font-size: 12.5px; font-weight: 700; margin: 0 0 4px;">Arrays, simply</p>
+                          <p style="font-size: 12px; line-height: 1.5; color: #3A3A3E; margin: 0;">An array is an ordered list of values stored under one name.</p>
+                        </div>
+                        <div style="opacity: {{ a2o }}; transform: translateY({{ a2s }});">
+                          <p style="font-size: 12px; line-height: 1.55; color: #3A3A3E; margin: 0;">•&nbsp; Each item sits at a position called an <strong>index</strong><br>•&nbsp; Counting starts at 0 — <span style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 11px; background: #F0F0F4; padding: 1px 4px; border-radius: 4px;">arr[0]</span> is the first item</p>
+                        </div>
+                        <div style="opacity: {{ a3o }}; transform: translateY({{ a3s }}); font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 11px; line-height: 1.6; background: #17181F; color: #C9D2F0; border-radius: 9px; padding: 9px 11px;">fruits = ["apple", "banana", "mango"]<br>fruits[1]&nbsp; <span style="color: #7E88B0;">→ "banana"</span></div>
+                        <p style="opacity: {{ a4o }}; transform: translateY({{ a4s }}); font-size: 12px; line-height: 1.5; color: #3A3A3E; margin: 0;">Think of it as a row of numbered boxes. Want a quick exercise?</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- input bar -->
+                <div style="padding: 10px 12px 6px;">
+                  <div style="display: flex; align-items: center; gap: 7px; background: #FFFFFF; border-radius: 100px; box-shadow: 0 1px 5px rgba(0,0,0,0.1); padding: 7px 8px 7px 15px;">
+                    <span style="flex: 1; font-size: 12.5px; color: {{ inputColor }}; white-space: nowrap; overflow: hidden;">{{ inputDisplay }}<span aria-hidden="true" style="display: inline-block; width: 1.5px; height: 13px; background: #5A5FEA; vertical-align: -2px; margin-left: 1px; opacity: {{ caretOpacity }}; animation: caretBlink 1s step-end infinite;"></span></span>
+                    <span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 11px; background: #5857EB; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                      <span style="width: 7px; height: 12px; border-radius: 4px; border: 1.5px solid #FFFFFF; display: block;"></span>
+                    </span>
+                    <span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 11px; background: #8B5CF6; display: flex; align-items: center; justify-content: center; gap: 2px; flex-shrink: 0;">
+                      <span style="width: 2px; height: 7px; border-radius: 2px; background: #FFFFFF; display: block;"></span>
+                      <span style="width: 2px; height: 12px; border-radius: 2px; background: #FFFFFF; display: block;"></span>
+                      <span style="width: 2px; height: 7px; border-radius: 2px; background: #FFFFFF; display: block;"></span>
+                    </span>
+                    <span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 11px; background: {{ sendBg }}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; flex-shrink: 0; transition: background 0.2s ease;">↑</span>
+                  </div>
+                  <p style="text-align: right; font-size: 11px; font-weight: 600; color: #4B5BD6; margin: 6px 4px 4px;">🔊 Voice on</p>
+                </div>
+              </div>
+
+              <!-- cursor -->
+              <div aria-hidden="true" style="position: absolute; left: 0; top: 0; z-index: 20; transform: translate({{ cursorX }}px, {{ cursorY }}px) scale({{ cursorScale }}); opacity: {{ cursorOpacity }}; pointer-events: none;">
+                <svg width="20" height="22" viewBox="0 0 20 22" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"><path d="M4 1 L4 17 L8 13.5 L10.6 19.5 L13.4 18.3 L10.8 12.4 L16 12 Z" fill="#FFFFFF" stroke="#1D1D1F" stroke-width="1.2"></path></svg>
+              </div>
+
+              <!-- screen dim / off -->
+              <div aria-hidden="true" style="position: absolute; inset: 0; background: #000000; opacity: {{ screenDim }}; pointer-events: none;"></div>
+            </div>
+
+            <!-- notch -->
+            <div aria-hidden="true" style="position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 130px; height: 15px; border-radius: 0 0 9px 9px; background: #000000;"></div>
+
+            <!-- lid back (visible while closed) -->
+            <div aria-hidden="true" style="position: absolute; inset: 0; border-radius: 22px 22px 6px 6px; background: linear-gradient(160deg, #3B3E48, #22242C 60%, #191A20); opacity: {{ lidBackOpacity }}; pointer-events: none; display: flex; align-items: center; justify-content: center;">
+              <span style="width: 40px; height: 40px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, rgba(139,147,248,0.5), rgba(90,95,234,0.15) 70%, transparent); display: block;"></span>
+            </div>
+          </div>
+
+          <!-- BASE / DECK -->
+          <div style="position: relative; width: 1000px; margin-left: -20px; height: 300px; transform: rotateX(76deg); transform-origin: 50% 0%; border-radius: 0 0 40px 40px; background: linear-gradient(180deg, #2E3038, #1E1F26 70%, #16171C); box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset;">
+            <div aria-hidden="true" style="position: absolute; left: 50%; top: 24px; transform: translateX(-50%); width: 780px; height: 150px; border-radius: 10px; background: #1A1B21; box-shadow: 0 0 0 1px rgba(255,255,255,0.04) inset;"></div>
+            <div aria-hidden="true" style="position: absolute; left: 50%; top: 190px; transform: translateX(-50%); width: 320px; height: 88px; border-radius: 10px; background: #23242B; box-shadow: 0 0 0 1px rgba(255,255,255,0.05) inset;"></div>
+          </div>
+
+          <!-- floor shadow -->
+          <div aria-hidden="true" style="position: absolute; left: 50%; bottom: -130px; transform: translateX(-50%); width: 1080px; height: 90px; background: radial-gradient(50% 50% at 50% 50%, rgba(0,0,0,0.7), transparent 70%); filter: blur(8px);"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ END OF PHASE 1 ═══════ -->
+  <section data-screen-label="Phase 1 end" style="min-height: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; text-align: center; padding: 60px 24px;">
+    <p style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #6A7280; margin: 0;">End of Phase 1</p>
+    <p style="font-size: 15px; color: #9AA3B2; max-width: 420px; line-height: 1.6; margin: 0; text-wrap: pretty;">Scenes 4–10 — desktop actions, YouTube, presentations, voice, orbit, and playground — come next after your approval.</p>
+    <a href="#top" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #E7EAF0; font-size: 13.5px; font-weight: 500; padding: 10px 20px; border-radius: 10px;" style-hover="background: rgba(255,255,255,0.1); color: #FFFFFF;">Replay the story ↑</a>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;scrollLength&quot;: { &quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 650, &quot;min&quot;: 400, &quot;max&quot;: 1000, &quot;step&quot;: 25, &quot;unit&quot;: &quot;vh&quot;, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Timeline&quot; }
+}">
+class Component extends DCLogic {
+  state = { p: 0, vw: 1200, vh: 800 };
+
+  componentDidMount() {
+    this.driver = null;
+    this.raf = null;
+    this.reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    this.onScroll = () => {
+      if (this.raf) return;
+      this.raf = requestAnimationFrame(() => {
+        this.raf = null;
+        this.measure();
+      });
+    };
+    window.addEventListener("scroll", this.onScroll, { passive: true });
+    window.addEventListener("resize", this.onScroll, { passive: true });
+    this.measure();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.onScroll);
+    window.removeEventListener("resize", this.onScroll);
+    if (this.raf) cancelAnimationFrame(this.raf);
+  }
+
+  measure() {
+    const el = this.driver;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const total = rect.height - vh;
+    const p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
+    if (Math.abs(p - this.state.p) > 0.0004 || window.innerWidth !== this.state.vw || window.innerHeight !== this.state.vh) {
+      this.setState({ p: p, vw: window.innerWidth, vh: window.innerHeight });
+    }
+  }
+
+  // progress of p within [a,b], clamped 0..1
+  seg(a, b) {
+    const p = this.state.p;
+    return Math.min(1, Math.max(0, (p - a) / (b - a)));
+  }
+  eio(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  eo(t) { return 1 - Math.pow(1 - t, 3); }
+  eob(t) { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); }
+  lerp(a, b, t) { return a + (b - a) * t; }
+
+  renderVals() {
+    const p = this.state.p;
+    const seg = this.seg.bind(this);
+    const { eio, eo, eob, lerp } = this;
+
+    // ── camera & laptop ──
+    const fit = Math.min(1, (this.state.vw - 24) / 1060, (this.state.vh - 40) / 790);
+    const cam = lerp(0.72, 1.0, eio(seg(0.03, 0.30)));
+    const lidT = eio(seg(0.07, 0.24));
+    const lidAngle = lerp(-89, 0, lidT);
+    const lidBack = 1 - seg(0.13, 0.20);
+    const screenDim = 1 - seg(0.17, 0.26);
+
+    // ── headlines ──
+    const h1In = seg(0.005, 0.045), h1Out = seg(0.09, 0.13);
+    const h2In = seg(0.27, 0.32), h2Out = seg(0.40, 0.45);
+
+    // ── orb appears ──
+    const orbIn = eo(seg(0.26, 0.31));
+    // orb press at click
+    const press = seg(0.465, 0.478) > 0 && seg(0.478, 0.49) < 1 ? 0.9 : 1;
+    // orb disappears into panel
+    const orbOut = 1 - seg(0.485, 0.53);
+
+    // ── cursor ──
+    // screen coords (936 x 592 inner)
+    const orbPt = { x: 878, y: 508 };
+    const inputPt = { x: 700, y: 452 };
+    let cx = 1000, cy = 580;
+    const m1 = eio(seg(0.34, 0.44));
+    cx = lerp(1000, orbPt.x, m1); cy = lerp(590, orbPt.y, m1);
+    const m2 = eio(seg(0.55, 0.60));
+    if (m2 > 0) { cx = lerp(orbPt.x, inputPt.x, m2); cy = lerp(orbPt.y, inputPt.y, m2); }
+    const cursorOpacity = Math.min(seg(0.335, 0.36), 1 - seg(0.63, 0.66));
+    const clickDip = (seg(0.465, 0.475) > 0 && seg(0.475, 0.487) < 1) || (seg(0.60, 0.607) > 0 && seg(0.607, 0.615) < 1) ? 0.82 : 1;
+    const hoverRing = Math.min(seg(0.43, 0.455), 1 - seg(0.48, 0.50));
+
+    // ── panel ──
+    const panelT = seg(0.485, 0.56);
+    const panelScale = panelT === 0 ? 0.04 : lerp(0.04, 1, eob(panelT));
+    const panelOpacity = seg(0.485, 0.52);
+
+    // ── typing ──
+    const FULL = "Teach me arrays in simple terms";
+    const typeT = seg(0.62, 0.735);
+    const sent = p >= 0.75;
+    const nChars = Math.round(typeT * FULL.length);
+    const typed = sent ? "" : FULL.slice(0, nChars);
+
+    // ── conversation ──
+    const greetOut = 1 - seg(0.745, 0.775);
+    const userIn = seg(0.75, 0.775);
+    const thinkT = seg(0.775, 0.80);
+    const thinkOut = seg(0.815, 0.83);
+    const a1 = seg(0.825, 0.855), a2 = seg(0.865, 0.895), a3 = seg(0.90, 0.93), a4 = seg(0.935, 0.965);
+    const chatScroll = -Math.round(64 * seg(0.90, 0.97));
+
+    return {
+      driverRef: (el) => { this.driver = el; },
+      driverHeight: (this.props.scrollLength ?? 650) + "vh",
+      ambientGlow: (0.05 + 0.09 * seg(0.1, 0.3)).toFixed(3),
+      hintOpacity: p < 0.015 ? "1" : "0",
+
+      h1Opacity: (Math.min(h1In, 1 - h1Out)).toFixed(3),
+      h1Shift: lerp(24, -16, seg(0.005, 0.13)).toFixed(1) + "px",
+      h1Hidden: p > 0.14 ? "true" : "false",
+      h2Opacity: (Math.min(h2In, 1 - h2Out)).toFixed(3),
+      h2Shift: lerp(20, -14, seg(0.27, 0.45)).toFixed(1) + "px",
+
+      laptopScale: (cam * fit).toFixed(4),
+      lidAngle: lidAngle.toFixed(2),
+      lidBackOpacity: lidBack.toFixed(3),
+      screenDim: screenDim.toFixed(3),
+
+      orbOpacity: (orbIn * orbOut).toFixed(3),
+      orbScale: (lerp(0.4, 1, orbIn) * press * lerp(1, 1.12, hoverRing)).toFixed(3),
+      orbRingOpacity: hoverRing.toFixed(3),
+      orbRingScale: lerp(0.8, 1.15, hoverRing).toFixed(3),
+
+      cursorX: cx.toFixed(1),
+      cursorY: cy.toFixed(1),
+      cursorScale: clickDip.toFixed(2),
+      cursorOpacity: cursorOpacity.toFixed(3),
+
+      panelScale: panelScale.toFixed(4),
+      panelOpacity: panelOpacity.toFixed(3),
+
+      greetOpacity: greetOut.toFixed(3),
+      greetShift: (-10 * (1 - greetOut)).toFixed(1) + "px",
+      chatOpacity: userIn > 0 ? "1" : "0",
+      chatScroll: chatScroll + "px",
+
+      inputDisplay: typed.length > 0 ? typed : "Message Tinker…",
+      inputColor: typed.length > 0 ? "#1D1D1F" : "#9AA0A8",
+      caretOpacity: typeT > 0 && !sent ? "1" : "0",
+      sendBg: typed.length > 0 ? "#5A5FEA" : "#8DA2E0",
+
+      userMsgOpacity: userIn.toFixed(3),
+      userMsgShift: lerp(8, 0, userIn).toFixed(1) + "px",
+      thinkingDisplay: thinkT > 0 && thinkOut < 1 ? "flex" : "none",
+      thinkingOpacity: (Math.min(thinkT, 1 - thinkOut)).toFixed(3),
+      answerDisplay: a1 > 0 ? "flex" : "none",
+      a1o: a1.toFixed(3), a1s: lerp(8, 0, a1).toFixed(1) + "px",
+      a2o: a2.toFixed(3), a2s: lerp(8, 0, a2).toFixed(1) + "px",
+      a3o: a3.toFixed(3), a3s: lerp(8, 0, a3).toFixed(1) + "px",
+      a4o: a4.toFixed(3), a4s: lerp(8, 0, a4).toFixed(1) + "px",
+    };
+  }
+}
+</script>
+</body>
+</html>

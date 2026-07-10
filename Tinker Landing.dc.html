@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>Tinker — AI assistant for your Mac desktop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Tinker is an AI-powered desktop assistant for macOS. A floating orb that opens apps, plays videos, creates presentations, and answers anything.">
+  <meta property="og:title" content="Tinker — AI assistant for your Mac desktop">
+  <meta property="og:description" content="A floating orb on your desktop that opens apps, plays media, builds presentations, and answers anything.">
+  <meta property="og:url" content="https://tinkerdesktop.com">
+  <meta property="og:type" content="website">
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: #08080B; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    a { color: #A7B4C4; text-decoration: none; }
+    a:hover { color: #F2F4F8; }
+    @keyframes orbPulse {
+      0%, 100% { box-shadow: 0 0 40px 4px rgba(124,179,232,0.35), 0 0 120px 20px rgba(124,179,232,0.12), inset 0 1px 1px rgba(255,255,255,0.5); }
+      50% { box-shadow: 0 0 60px 10px rgba(124,179,232,0.5), 0 0 160px 40px rgba(124,179,232,0.16), inset 0 1px 1px rgba(255,255,255,0.5); }
+    }
+    @keyframes orbFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes caretBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 780px) {
+      [data-nav-links] { display: none !important; }
+      [data-hero-visual] { height: 420px !important; }
+    }
+  </style>
+</helmet>
+
+<div data-screen-label="Tinker Landing" style="min-height: 100vh; background: #08080B; color: #F2F4F8; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, sans-serif; overflow-x: hidden;">
+
+  <!-- ambient background -->
+  <div aria-hidden="true" style="position: fixed; inset: 0; pointer-events: none; background: radial-gradient(900px 500px at 50% -10%, rgba(124,179,232,0.10), transparent 65%), radial-gradient(700px 500px at 85% 40%, rgba(124,179,232,0.04), transparent 60%);"></div>
+
+  <!-- ══════════ NAVBAR ══════════ -->
+  <nav aria-label="Main" style="position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(20px, 4vw, 48px); height: 60px; background: rgba(8,8,11,0.65); backdrop-filter: blur(20px) saturate(1.4); -webkit-backdrop-filter: blur(20px) saturate(1.4); border-bottom: 1px solid rgba(255,255,255,0.06);">
+    <a href="#top" aria-label="Tinker home" style="display: flex; align-items: center; gap: 10px; color: #F2F4F8;">
+      <span aria-hidden="true" style="width: 18px; height: 18px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #DDEEFF, #7CB3E8 55%, #3A6EA8); box-shadow: 0 0 12px rgba(124,179,232,0.6); display: block;"></span>
+      <span style="font-size: 15px; font-weight: 600; letter-spacing: -0.01em;">Tinker</span>
+    </a>
+    <div data-nav-links="true" style="display: flex; align-items: center; gap: 32px; font-size: 13.5px;">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#download">Download</a>
+      <a href="#" title="GitHub link coming soon">GitHub</a>
+    </div>
+    <a href="#download" style="display: inline-flex; align-items: center; gap: 8px; background: #F2F4F8; color: #08080B; font-size: 13px; font-weight: 600; padding: 8px 16px; border-radius: 8px; letter-spacing: -0.01em; transition: background 0.15s ease;" style-hover="background: #FFFFFF; color: #08080B;">
+      Download for macOS
+    </a>
+  </nav>
+
+  <!-- ══════════ HERO ══════════ -->
+  <header id="top" style="position: relative; padding: clamp(130px, 16vh, 180px) clamp(20px, 5vw, 48px) 40px; text-align: center; max-width: 1100px; margin: 0 auto;">
+    <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 100px; border: 1px solid rgba(124,179,232,0.25); background: rgba(124,179,232,0.06); font-size: 12.5px; color: #A7C5DF; margin-bottom: 28px; animation: fadeUp 0.7s ease both;">
+      <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #7CB3E8; display: block;"></span>
+      Now available for macOS
+    </div>
+    <h1 style="font-size: clamp(38px, 6vw, 68px); font-weight: 650; letter-spacing: -0.035em; line-height: 1.05; margin: 0 0 20px; text-wrap: balance; animation: fadeUp 0.7s 0.05s ease both;">
+      Your Mac, on command.
+    </h1>
+    <p style="font-size: clamp(16px, 2vw, 19px); line-height: 1.55; color: #9AA3B2; max-width: 560px; margin: 0 auto 32px; text-wrap: pretty; animation: fadeUp 0.7s 0.1s ease both;">
+      Tinker is an AI assistant that lives on your desktop as a floating orb. Ask it to open apps, play videos, build presentations, or explain anything — it just does it.
+    </p>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; animation: fadeUp 0.7s 0.15s ease both;">
+      <a href="#download" style="display: inline-flex; align-items: center; gap: 8px; background: #F2F4F8; color: #08080B; font-size: 15px; font-weight: 600; padding: 12px 24px; border-radius: 10px; letter-spacing: -0.01em; box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 8px 24px rgba(0,0,0,0.4); transition: transform 0.15s ease;" style-hover="color: #08080B; transform: translateY(-1px);">
+         Download for macOS
+      </a>
+      <a href="#demo" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); color: #E7EAF0; font-size: 15px; font-weight: 500; padding: 12px 24px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); transition: background 0.15s ease;" style-hover="background: rgba(255,255,255,0.09); color: #FFFFFF;">
+        <span aria-hidden="true" style="display: inline-block; width: 0; height: 0; border-left: 8px solid currentColor; border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></span>
+        Watch demo
+      </a>
+    </div>
+    <p style="font-size: 12.5px; color: #6A7280; margin: 18px 0 0; animation: fadeUp 0.7s 0.2s ease both;">Requires macOS 13 or later · Apple Silicon &amp; Intel</p>
+
+    <!-- interactive orb visual -->
+    <div data-hero-visual="true" style="position: relative; margin: 56px auto 0; max-width: 960px; height: 520px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.08); background: linear-gradient(180deg, rgba(18,20,28,0.9), rgba(10,11,15,0.95)), radial-gradient(600px 300px at 50% 110%, rgba(124,179,232,0.15), transparent); overflow: hidden; animation: fadeUp 0.8s 0.25s ease both;">
+      <!-- faux desktop dots -->
+      <div aria-hidden="true" style="position: absolute; top: 16px; left: 20px; display: flex; gap: 7px;">
+        <span style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.12); display: block;"></span>
+        <span style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.12); display: block;"></span>
+        <span style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.12); display: block;"></span>
+      </div>
+      <div aria-hidden="true" style="position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1px); background-size: 28px 28px;"></div>
+
+      <!-- the orb -->
+      <button type="button" onClick="{{ toggleOrb }}" aria-label="Open the Tinker assistant" aria-expanded="{{ orbOpenStr }}" style="position: absolute; left: 50%; top: 50%; width: 84px; height: 84px; margin: -42px 0 0 -42px; border-radius: 50%; border: none; cursor: pointer; background: radial-gradient(circle at 35% 28%, #E8F3FF, #7CB3E8 52%, #2E5C93 95%); animation: orbPulse 3.5s ease-in-out infinite, orbFloat 5s ease-in-out infinite; transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.3s ease; transform: scale({{ orbScale }}); opacity: {{ orbOpacity }}; pointer-events: {{ orbEvents }};"></button>
+
+      <p aria-hidden="true" style="position: absolute; left: 50%; top: calc(50% + 64px); transform: translateX(-50%); font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 12px; color: #5E6673; transition: opacity 0.3s ease; opacity: {{ hintOpacity }}; margin: 0;">click the orb</p>
+
+      <!-- assistant panel -->
+      <div role="dialog" aria-label="Tinker assistant preview" style="position: absolute; left: 50%; top: 50%; width: min(560px, 88%); transform: translate(-50%, -50%) scale({{ panelScale }}); opacity: {{ panelOpacity }}; pointer-events: {{ panelEvents }}; transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.35s ease; border-radius: 18px; background: rgba(22,24,32,0.85); backdrop-filter: blur(30px) saturate(1.5); -webkit-backdrop-filter: blur(30px) saturate(1.5); border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 60px rgba(124,179,232,0.08); text-align: left;">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #E8F3FF, #7CB3E8 55%, #2E5C93); box-shadow: 0 0 10px rgba(124,179,232,0.6); display: block;"></span>
+            <span style="font-size: 13px; font-weight: 600;">Tinker</span>
+          </div>
+          <button type="button" onClick="{{ toggleOrb }}" aria-label="Close assistant preview" style="background: none; border: none; color: #6A7280; font-size: 16px; cursor: pointer; padding: 4px 8px; line-height: 1;" style-hover="color: #F2F4F8;">×</button>
+        </div>
+        <div style="padding: 18px;">
+          <div style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); font-size: 14px; color: #8B94A3;">
+            Ask Tinker anything…
+            <span aria-hidden="true" style="display: inline-block; width: 1.5px; height: 16px; background: #7CB3E8; animation: caretBlink 1.1s step-end infinite;"></span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px;">
+            <span style="font-size: 12px; color: #A7C5DF; background: rgba(124,179,232,0.08); border: 1px solid rgba(124,179,232,0.2); padding: 6px 12px; border-radius: 100px;">Open Spotify</span>
+            <span style="font-size: 12px; color: #A7C5DF; background: rgba(124,179,232,0.08); border: 1px solid rgba(124,179,232,0.2); padding: 6px 12px; border-radius: 100px;">Play a YouTube video</span>
+            <span style="font-size: 12px; color: #A7C5DF; background: rgba(124,179,232,0.08); border: 1px solid rgba(124,179,232,0.2); padding: 6px 12px; border-radius: 100px;">Create a Keynote deck</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════════ PRODUCT DEMO ══════════ -->
+  <section id="demo" data-screen-label="Demo" style="position: relative; padding: clamp(72px, 10vh, 120px) clamp(20px, 5vw, 48px); max-width: 1100px; margin: 0 auto;">
+    <p style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #7CB3E8; margin: 0 0 12px;">See it work</p>
+    <h2 style="font-size: clamp(28px, 4vw, 42px); font-weight: 640; letter-spacing: -0.03em; margin: 0 0 40px; max-width: 520px; line-height: 1.15;">Say what you want. Tinker does the rest.</h2>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; align-items: start;">
+      <!-- command pills -->
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <sc-for list="{{ demoCommands }}" as="cmd" hint-placeholder-count="4">
+          <button type="button" onClick="{{ cmd.select }}" style="text-align: left; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 13.5px; padding: 14px 18px; border-radius: 12px; cursor: pointer; transition: all 0.25s ease; background: {{ cmd.bg }}; border: 1px solid {{ cmd.border }}; color: {{ cmd.color }};">
+            “{{ cmd.label }}”
+          </button>
+        </sc-for>
+      </div>
+
+      <!-- live terminal window -->
+      <div style="border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); background: rgba(16,18,24,0.9); overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
+        <div style="display: flex; align-items: center; gap: 7px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <span aria-hidden="true" style="width: 11px; height: 11px; border-radius: 50%; background: #FF5F57; display: block;"></span>
+          <span aria-hidden="true" style="width: 11px; height: 11px; border-radius: 50%; background: #FEBC2E; display: block;"></span>
+          <span aria-hidden="true" style="width: 11px; height: 11px; border-radius: 50%; background: #28C840; display: block;"></span>
+          <span style="margin-left: 8px; font-size: 12px; color: #6A7280;">Tinker</span>
+        </div>
+        <div style="padding: 20px 20px 24px; min-height: 190px;">
+          <div style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 14px; line-height: 1.5; color: #E7EAF0; display: flex; gap: 8px;">
+            <span aria-hidden="true" style="color: #7CB3E8;">›</span>
+            <span>{{ typed }}<span aria-hidden="true" style="display: inline-block; width: 8px; height: 15px; background: #7CB3E8; vertical-align: -2px; margin-left: 2px; animation: caretBlink 1s step-end infinite;"></span></span>
+          </div>
+          <div style="margin-top: 18px; opacity: {{ responseOpacity }}; transform: translateY({{ responseShift }}); transition: opacity 0.35s ease, transform 0.35s ease;">
+            <div style="display: inline-flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #8FD3A8; background: rgba(90,200,140,0.08); border: 1px solid rgba(90,200,140,0.25); padding: 4px 10px; border-radius: 100px;">
+              <span aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%; background: #8FD3A8; display: block;"></span>
+              {{ responseStatus }}
+            </div>
+            <p style="font-size: 14px; line-height: 1.6; color: #A7B0BF; margin: 12px 0 0; text-wrap: pretty;">{{ responseBody }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ FEATURES ══════════ -->
+  <section id="features" data-screen-label="Features" style="position: relative; padding: clamp(72px, 10vh, 120px) clamp(20px, 5vw, 48px); max-width: 1100px; margin: 0 auto;">
+    <p style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #7CB3E8; margin: 0 0 12px;">Capabilities</p>
+    <h2 style="font-size: clamp(28px, 4vw, 42px); font-weight: 640; letter-spacing: -0.03em; margin: 0 0 40px; max-width: 560px; line-height: 1.15;">One orb. Everything your desktop should do.</h2>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+      <sc-for list="{{ features }}" as="f" hint-placeholder-count="6">
+        <div style="padding: 26px 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.07); background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.008)); transition: border-color 0.2s ease;" style-hover="border-color: rgba(124,179,232,0.3);">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(124,179,232,0.08); border: 1px solid rgba(124,179,232,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; font-size: 16px; color: #7CB3E8; font-family: ui-monospace, 'SF Mono', Menlo, monospace;">{{ f.glyph }}</div>
+          <h3 style="font-size: 16px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 8px;">{{ f.title }}</h3>
+          <p style="font-size: 14px; line-height: 1.55; color: #8B94A3; margin: 0; text-wrap: pretty;">{{ f.desc }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ══════════ HOW IT WORKS ══════════ -->
+  <section id="how" data-screen-label="How it works" style="position: relative; padding: clamp(72px, 10vh, 120px) clamp(20px, 5vw, 48px); max-width: 1100px; margin: 0 auto;">
+    <p style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #7CB3E8; margin: 0 0 12px;">How it works</p>
+    <h2 style="font-size: clamp(28px, 4vw, 42px); font-weight: 640; letter-spacing: -0.03em; margin: 0 0 40px; line-height: 1.15;">Running in under a minute.</h2>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
+        <div style="padding: 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.015);">
+          <p style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 13px; color: #7CB3E8; margin: 0 0 14px;">{{ s.num }}</p>
+          <h3 style="font-size: 15.5px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 8px;">{{ s.title }}</h3>
+          <p style="font-size: 13.5px; line-height: 1.55; color: #8B94A3; margin: 0; text-wrap: pretty;">{{ s.desc }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ══════════ PRIVACY ══════════ -->
+  <section id="privacy" data-screen-label="Privacy" style="position: relative; padding: clamp(72px, 10vh, 120px) clamp(20px, 5vw, 48px); max-width: 1100px; margin: 0 auto;">
+    <div style="border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.005)); padding: clamp(32px, 5vw, 56px); display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; align-items: center;">
+      <div>
+        <p style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #7CB3E8; margin: 0 0 12px;">Privacy</p>
+        <h2 style="font-size: clamp(26px, 3.5vw, 36px); font-weight: 640; letter-spacing: -0.03em; margin: 0 0 16px; line-height: 1.15;">Your key stays on your Mac.</h2>
+        <p style="font-size: 15px; line-height: 1.6; color: #9AA3B2; margin: 0; text-wrap: pretty;">Tinker stores your AI API key locally on your machine — it is never uploaded to our servers. And Tinker does not sell your data. That's it.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; gap: 14px; align-items: flex-start; padding: 18px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.02);">
+          <span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #8FD3A8; margin-top: 6px; flex-shrink: 0; display: block;"></span>
+          <p style="font-size: 14px; line-height: 1.55; color: #B6BECC; margin: 0;">API keys are stored locally on your device during setup.</p>
+        </div>
+        <div style="display: flex; gap: 14px; align-items: flex-start; padding: 18px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.02);">
+          <span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #8FD3A8; margin-top: 6px; flex-shrink: 0; display: block;"></span>
+          <p style="font-size: 14px; line-height: 1.55; color: #B6BECC; margin: 0;">Tinker does not sell user data.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ FINAL CTA ══════════ -->
+  <section id="download" data-screen-label="Download CTA" style="position: relative; padding: clamp(80px, 12vh, 140px) clamp(20px, 5vw, 48px); text-align: center;">
+    <div aria-hidden="true" style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 700px; height: 300px; background: radial-gradient(50% 100% at 50% 100%, rgba(124,179,232,0.14), transparent 70%); pointer-events: none;"></div>
+    <span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(circle at 35% 28%, #E8F3FF, #7CB3E8 52%, #2E5C93 95%); box-shadow: 0 0 40px rgba(124,179,232,0.5); display: inline-block; margin-bottom: 24px; animation: orbFloat 5s ease-in-out infinite;"></span>
+    <h2 style="font-size: clamp(32px, 5vw, 54px); font-weight: 650; letter-spacing: -0.035em; margin: 0 0 28px; line-height: 1.1;">Your desktop, finally useful.</h2>
+    <a href="#" title="Download link coming soon" style="display: inline-flex; align-items: center; gap: 8px; background: #F2F4F8; color: #08080B; font-size: 15.5px; font-weight: 600; padding: 14px 28px; border-radius: 12px; letter-spacing: -0.01em; box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 12px 32px rgba(0,0,0,0.5); transition: transform 0.15s ease;" style-hover="color: #08080B; transform: translateY(-1px);">
+       Download Tinker for macOS
+    </a>
+    <p style="font-size: 12.5px; color: #6A7280; margin: 16px 0 0;">Free download · macOS 13 or later</p>
+  </section>
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer style="border-top: 1px solid rgba(255,255,255,0.06); padding: 36px clamp(20px, 5vw, 48px); max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #DDEEFF, #7CB3E8 55%, #3A6EA8); display: block;"></span>
+      <span style="font-size: 13.5px; font-weight: 600;">Tinker</span>
+    </div>
+    <nav aria-label="Footer" style="display: flex; flex-wrap: wrap; gap: 24px; font-size: 13px;">
+      <a href="#" title="GitHub link coming soon">GitHub</a>
+      <a href="#" title="Privacy policy coming soon">Privacy</a>
+      <a href="#" title="Terms coming soon">Terms</a>
+      <a href="#" title="Contact coming soon">Contact</a>
+    </nav>
+    <p style="font-size: 12.5px; color: #6A7280; margin: 0;">© 2026 Tinker</p>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;reduceMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Demo animation&quot;},&quot;typingSpeed&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:65,&quot;min&quot;:15,&quot;max&quot;:120,&quot;step&quot;:5,&quot;unit&quot;:&quot;ms/char&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Demo animation&quot;}}">
+class Component extends DCLogic {
+  state = {
+    orbOpen: false,
+    cmdIndex: 0,
+    typed: "",
+    showResponse: false,
+  };
+
+  commands = [
+    {
+      label: "Create a presentation on the Indian economy",
+      status: "Creating in Keynote",
+      body: "Drafted 8 slides — GDP growth, key sectors, trade, and outlook. Opening Keynote now.",
+    },
+    {
+      label: "Play the latest Latent episode on YouTube",
+      status: "Now playing",
+      body: "Found the latest episode of Latent on YouTube. Playing it in your browser.",
+    },
+    {
+      label: "Teach me arrays",
+      status: "Answering",
+      body: "An array stores items in order, accessed by index — arr[0] is the first element. Want examples in Python or JavaScript?",
+    },
+    {
+      label: "Open Spotify",
+      status: "Done",
+      body: "Spotify is open and ready.",
+    },
+  ];
+
+  componentDidMount() {
+    this.timers = [];
+    if (this.props.reduceMotion) {
+      this.setState({ typed: this.commands[0].label, showResponse: true });
+      const iv = setInterval(() => {
+        const next = (this.state.cmdIndex + 1) % this.commands.length;
+        this.setState({ cmdIndex: next, typed: this.commands[next].label, showResponse: true });
+      }, 5000);
+      this.timers.push(iv);
+    } else {
+      this.startTyping(0);
+    }
+  }
+
+  componentWillUnmount() {
+    this.clearTimers();
+  }
+
+  clearTimers() {
+    (this.timers || []).forEach((t) => { clearTimeout(t); clearInterval(t); });
+    this.timers = [];
+  }
+
+  startTyping(index) {
+    this.clearTimers();
+    const speed = this.props.typingSpeed ?? 45;
+    const label = this.commands[index].label;
+    this.setState({ cmdIndex: index, typed: "", showResponse: false });
+    let i = 0;
+    const step = () => {
+      i += 1;
+      this.setState({ typed: label.slice(0, i) });
+      if (i < label.length) {
+        this.timers.push(setTimeout(step, speed));
+      } else {
+        this.timers.push(setTimeout(() => {
+          this.setState({ showResponse: true });
+          this.timers.push(setTimeout(() => {
+            this.startTyping((index + 1) % this.commands.length);
+          }, 3600));
+        }, 450));
+      }
+    };
+    this.timers.push(setTimeout(step, 400));
+  }
+
+  renderVals() {
+    const { orbOpen, cmdIndex, typed, showResponse } = this.state;
+    const active = this.commands[cmdIndex];
+    return {
+      // hero orb / panel
+      toggleOrb: () => this.setState((s) => ({ orbOpen: !s.orbOpen })),
+      orbOpenStr: orbOpen ? "true" : "false",
+      orbScale: orbOpen ? "0.4" : "1",
+      orbOpacity: orbOpen ? "0" : "1",
+      orbEvents: orbOpen ? "none" : "auto",
+      hintOpacity: orbOpen ? "0" : "1",
+      panelScale: orbOpen ? "1" : "0.85",
+      panelOpacity: orbOpen ? "1" : "0",
+      panelEvents: orbOpen ? "auto" : "none",
+
+      // demo
+      typed: typed,
+      responseStatus: active.status,
+      responseBody: active.body,
+      responseOpacity: showResponse ? "1" : "0",
+      responseShift: showResponse ? "0px" : "8px",
+      demoCommands: this.commands.map((c, i) => ({
+        label: c.label,
+        select: () => (this.props.reduceMotion
+          ? this.setState({ cmdIndex: i, typed: c.label, showResponse: true })
+          : this.startTyping(i)),
+        bg: i === cmdIndex ? "rgba(124,179,232,0.1)" : "rgba(255,255,255,0.02)",
+        border: i === cmdIndex ? "rgba(124,179,232,0.35)" : "rgba(255,255,255,0.07)",
+        color: i === cmdIndex ? "#CFE4F7" : "#8B94A3",
+      })),
+
+      // features
+      features: [
+        { glyph: "◒", title: "AI conversations", desc: "Ask anything, from quick facts to deep explanations, powered by Gemini AI." },
+        { glyph: "⌘", title: "Desktop actions", desc: "Open apps, websites, and files with a single sentence — no clicking around." },
+        { glyph: "▤", title: "Presentations & documents", desc: "Turn a one-line prompt into a Keynote deck or a written document." },
+        { glyph: "▶", title: "Smart media control", desc: "Search and play YouTube videos or control your music with a single command." },
+        { glyph: "●", title: "Floating desktop orb", desc: "Always one click away. The orb sits quietly on your desktop until you need it." },
+        { glyph: "❯❯", title: "Fast & native", desc: "Built for macOS. Instant launch, low memory, and it feels like it belongs." },
+      ],
+
+      // steps
+      steps: [
+        { num: "01", title: "Download Tinker", desc: "Grab the app and drag it into your Applications folder." },
+        { num: "02", title: "Add your AI key", desc: "Paste your API key during setup. It's stored locally on your Mac." },
+        { num: "03", title: "Click the orb", desc: "The orb appears on your desktop. Click it and ask anything." },
+        { num: "04", title: "Tinker does it", desc: "Apps open, decks get built, videos play. You just watch." },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
