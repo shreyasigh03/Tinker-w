@@ -1,0 +1,8 @@
+{
+  "name": "tinker-waitlist-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Serverless waitlist endpoint for Tinker Desktop (Supabase + Resend).",
+  "engines": { "node": ">=18" }
+}

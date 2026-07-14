@@ -329,7 +329,33 @@
     onfocus: "onFocus",
     onblur: "onBlur",
     ondoubleclick: "onDoubleClick",
-    oncontextmenu: "onContextMenu"
+    oncontextmenu: "onContextMenu",
+    onmousemove: "onMouseMove",
+    onmouseover: "onMouseOver",
+    onmouseout: "onMouseOut",
+    onpointerdown: "onPointerDown",
+    onpointerup: "onPointerUp",
+    onpointermove: "onPointerMove",
+    onpointerenter: "onPointerEnter",
+    onpointerleave: "onPointerLeave",
+    onpointercancel: "onPointerCancel",
+    onpointerover: "onPointerOver",
+    onpointerout: "onPointerOut",
+    ongotpointercapture: "onGotPointerCapture",
+    onlostpointercapture: "onLostPointerCapture",
+    ontouchstart: "onTouchStart",
+    ontouchend: "onTouchEnd",
+    ontouchmove: "onTouchMove",
+    ontouchcancel: "onTouchCancel",
+    ondragstart: "onDragStart",
+    ondragend: "onDragEnd",
+    ondragenter: "onDragEnter",
+    ondragleave: "onDragLeave",
+    ondragover: "onDragOver",
+    onanimationstart: "onAnimationStart",
+    onanimationend: "onAnimationEnd",
+    onanimationiteration: "onAnimationIteration",
+    ontransitionend: "onTransitionEnd"
   };
   var ATTRS = `(?:[^>"']|"[^"]*"|'[^']*')*`;
   var IMPORT_SELF_CLOSE_RE = new RegExp(
@@ -337,6 +363,12 @@
     "gi"
   );
   var CAMEL_ATTR_RE = /(\s)([a-z]+[A-Z][A-Za-z0-9]*)(\s*=)/g;
+  function encodeCamelAttrs(html) {
+    return html.replace(
+      CAMEL_ATTR_RE,
+      (_, sp, name, eq) => sp + CAMEL_ATTR + name.replace(/[A-Z]/g, (c) => "-" + c.toLowerCase()) + eq
+    );
+  }
   function encodeCase(html) {
     html = html.replace(
       IMPORT_SELF_CLOSE_RE,
@@ -344,10 +376,7 @@
     );
     html = html.replace(/<helmet(\s|>)/gi, "<sc-helmet$1");
     html = html.replace(/<\/helmet\s*>/gi, "</sc-helmet>");
-    html = html.replace(
-      CAMEL_ATTR_RE,
-      (_, sp, name, eq) => sp + CAMEL_ATTR + name.replace(/[A-Z]/g, (c) => "-" + c.toLowerCase()) + eq
-    );
+    html = encodeCamelAttrs(html);
     for (const [real, alias] of Object.entries(RAW_WRAP)) {
       html = html.replace(
         new RegExp("(</?)" + real + "(?=[\\s>])", "gi"),
@@ -1350,6 +1379,28 @@
             const key = tag + "|" + (child.getAttribute("href") || child.getAttribute("src") || child.outerHTML);
             if (mounted.has(key)) continue;
             mounted.add(key);
+            if (tag === "LINK") {
+              const rel = (child.getAttribute("rel") || "").toLowerCase().split(/\s+/);
+              const href = (child.getAttribute("href") || "").trim();
+              const res = window.__resources;
+              const pre = res && rel.includes("stylesheet") && !rel.includes("alternate") ? res[href] : void 0;
+              const blob = typeof pre === "string" && pre ? bundledBlob(pre) : null;
+              if (blob) {
+                const el = doc.createElement("style");
+                if (child.hasAttribute("disabled")) {
+                  el.setAttribute("media", "not all");
+                } else if (child.getAttribute("media")) {
+                  el.setAttribute("media", child.getAttribute("media"));
+                }
+                if (child.getAttribute("title"))
+                  el.setAttribute("title", child.getAttribute("title"));
+                void blob.text().then((css) => {
+                  el.textContent = css;
+                });
+                doc.head.appendChild(el);
+                continue;
+              }
+            }
             doc.head.appendChild(child.cloneNode(true));
           } else {
             const key = name + "|" + i;

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tinker — An AI that uses your Mac</title>
+  <meta name="description" content="Tinker is an AI desktop assistant for macOS. It understands what you ask and takes action directly on your Mac — apps, media, presentations, and more.">
+  <meta property="og:title" content="Tinker — An AI that uses your Mac">
+  <meta property="og:description" content="Ask. Automate. Create. Control. An AI desktop assistant that acts on your Mac.">
+  <meta property="og:url" content="https://tinkerdesktop.com">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══════ NAVBAR ═══════ -->
+  <nav class="nav" id="nav" aria-label="Main">
+    <a href="#product" class="nav-brand" aria-label="Tinker home">
+      <span class="orb-dot" aria-hidden="true"></span>
+      <span class="nav-name">Tinker</span>
+    </a>
+    <div class="nav-links">
+      <a href="#product">Product</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#how">How it works</a>
+      <a href="#demo">Demo</a>
+    </div>
+    <div class="nav-right">
+      <a href="#download" class="btn btn-light btn-sm">Get notified</a>
+    </div>
+  </nav>
+
+  <!-- ═══════ HERO ═══════ -->
+  <header class="hero" id="product">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <div class="badge">
+          <span class="badge-dot" aria-hidden="true"></span>
+          Coming soon to macOS
+        </div>
+        <h1>Your Mac.<br><span class="accent">Now it can act.</span></h1>
+        <p class="hero-sub">Tinker is an AI desktop assistant that understands what you ask and takes action directly on your Mac.</p>
+        <div class="hero-ctas">
+          <a href="#download" class="btn btn-light"> Get notified at launch</a>
+          <a href="#demo" class="btn btn-ghost"><span class="play-tri" aria-hidden="true"></span>Watch demo</a>
+        </div>
+        <p class="fine">Launching soon · macOS 13 or later · Apple Silicon &amp; Intel</p>
+      </div>
+      <div class="hero-orb-wrap" aria-hidden="true">
+        <div class="hero-orb-mover" id="heroOrbMover">
+          <div class="hero-orb"></div>
+        </div>
+        <div class="hero-orb-ring" id="heroOrbRing"></div>
+      </div>
+    </div>
+    <div class="hero-fade" aria-hidden="true"></div>
+  </header>
+
+  <!-- ═══════ PINNED CINEMATIC DEMO ═══════ -->
+  <div class="driver" id="demo">
+    <div class="stage">
+      <div class="stage-glow" id="stageGlow" aria-hidden="true"></div>
+
+      <div class="headline headline-1" id="h1El"><p>Meet Tinker.</p></div>
+      <div class="headline headline-2" id="h2El"><p>An AI that doesn't just answer.<br><span class="accent">It uses your Mac.</span></p></div>
+
+      <div class="captions" aria-hidden="true">
+        <p id="cap1">Ask anything.</p>
+        <p id="cap2a">It doesn't just tell you what to do.</p>
+        <p id="cap2b" class="accent">It does it.</p>
+        <p id="cap3">Search. Find. Play. <span class="accent">One command.</span></p>
+        <p id="cap4">From request to result.</p>
+        <p id="cap5">Just say it.</p>
+      </div>
+
+      <div class="scroll-hint" id="scrollHint">
+        <p>scroll</p>
+        <div class="hint-line"></div>
+      </div>
+
+      <!-- MACBOOK -->
+      <div class="laptop-pos" id="laptopPos">
+        <div class="laptop-perspective">
+
+          <!-- base / deck -->
+          <div class="mb-base">
+            <div class="mb-kb-well" aria-hidden="true">
+              <div class="mb-fn-row" id="fnRow"></div>
+              <div class="mb-key-grid" id="keyGrid"></div>
+              <div class="mb-space-row">
+                <span style="width:7%"></span><span style="width:6%"></span><span style="width:8%"></span>
+                <span class="grow"></span>
+                <span style="width:8%"></span><span style="width:6%"></span><span style="width:7%"></span>
+              </div>
+            </div>
+            <div class="mb-trackpad" aria-hidden="true"></div>
+            <div class="mb-scoop" aria-hidden="true"></div>
+          </div>
+
+          <!-- LID -->
+          <div class="mb-lid" id="lid">
+            <div class="mb-screen" id="screen">
+              <div class="wallpaper" aria-hidden="true"></div>
+
+              <!-- desktop icons -->
+              <div class="desk-icons" aria-hidden="true">
+                <div class="desk-icon"><span class="icon-folder"></span><span class="desk-label">Projects</span></div>
+                <div class="desk-icon"><span class="icon-file"><i></i><i></i><i></i><i></i></span><span class="desk-label">notes.txt</span></div>
+                <div class="desk-icon"><span class="icon-folder gray"></span><span class="desk-label">Archive</span></div>
+              </div>
+
+              <!-- menu bar -->
+              <div class="menubar">
+                <div class="menubar-left"><span class="apple"></span><span class="b">Finder</span><span>File</span><span>Edit</span><span>View</span><span>Go</span><span>Window</span><span>Help</span></div>
+                <div class="menubar-right"><span>100%</span><span>Wed 9:41 AM</span></div>
+              </div>
+
+              <!-- dock -->
+              <div class="dock">
+                <span class="dock-finder" title="Finder"><span></span></span>
+                <span class="dock-safari" title="Safari"><span></span></span>
+                <span class="dock-mail" title="Mail"><span><i></i></span></span>
+                <span class="dock-spotify" title="Spotify"><i></i><i></i><i></i></span>
+                <span class="dock-keynote" title="Keynote"><span></span><i></i></span>
+                <span class="dock-music" title="Music">♪</span>
+              </div>
+
+              <!-- SPOTIFY WINDOW -->
+              <div class="app-win spotify-win" id="spotWin">
+                <div class="win-titlebar dark"><span class="tl r"></span><span class="tl y"></span><span class="tl g"></span><span class="win-title">Spotify</span></div>
+                <div class="spot-body">
+                  <div class="spot-side">
+                    <span class="w b">Home</span><span>Search</span><span>Your Library</span>
+                    <span class="spot-side-head">Playlists</span>
+                    <span class="green b">lo-fi beats</span>
+                    <span>Daily Mix 1</span><span>Deep Focus</span><span>Liked Songs</span>
+                  </div>
+                  <div class="spot-main">
+                    <div class="spot-head">
+                      <span class="spot-art">🎧</span>
+                      <div><p class="spot-kicker">Playlist</p><p class="spot-title">lo-fi beats</p></div>
+                      <span class="spot-play"><i></i></span>
+                    </div>
+                    <div class="spot-tracks">
+                      <div class="spot-track active"><span class="n green">▸</span><div><p class="green">midnight study</p><p class="sub">sleepy tapes</p></div><span class="t">2:47</span></div>
+                      <div class="spot-track"><span class="n">2</span><div><p>rainy window</p><p class="sub">tape ghost</p></div><span class="t">3:12</span></div>
+                      <div class="spot-track"><span class="n">3</span><div><p>slow sunday</p><p class="sub">cloud kid</p></div><span class="t">2:58</span></div>
+                    </div>
+                    <div class="spot-nowbar">
+                      <span class="spot-mini-art"></span>
+                      <div class="spot-now-meta"><p>midnight study</p><p class="sub">sleepy tapes</p></div>
+                      <div class="spot-controls">
+                        <div class="row"><span>⇄</span><span>⏮</span><span class="pp">❚❚</span><span>⏭</span><span>↻</span></div>
+                        <div class="bar"><div id="spotProg"></div></div>
+                      </div>
+                      <span class="vol">🔊</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- BROWSER / YOUTUBE -->
+              <div class="app-win browser-win" id="browWin">
+                <div class="win-titlebar light"><span class="tl r"></span><span class="tl y"></span><span class="tl g"></span><span class="url">youtube.com/results?q=latent+latest+episode</span></div>
+                <div class="yt-results" id="ytResults">
+                  <p class="yt-head">Search results</p>
+                  <div class="yt-row" id="ytRow1"><span class="thumb t1"><i></i></span><div><p class="tt">Latent — Episode 42</p><p class="sub">Latent · 128K views · 2 days ago</p></div></div>
+                  <div class="yt-row"><span class="thumb t2"></span><div><p class="tt">Latent — Episode 41</p><p class="sub">Latent · 96K views · 1 week ago</p></div></div>
+                  <div class="yt-row"><span class="thumb t3"></span><div><p class="tt">Latent — Episode 40</p><p class="sub">Latent · 104K views · 2 weeks ago</p></div></div>
+                </div>
+                <div class="yt-player" id="ytPlayer">
+                  <div class="yt-video"><span class="yt-bigplay" id="ytBigPlay"><i></i></span></div>
+                  <div class="yt-meta">
+                    <div class="bar"><div id="ytProg"></div></div>
+                    <p>Latent — Episode 42</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- KEYNOTE -->
+              <div class="app-win keynote-win" id="keyWin">
+                <div class="win-titlebar lighter"><span class="tl r"></span><span class="tl y"></span><span class="tl g"></span><span class="win-title dim">Quantum Computing — Keynote</span></div>
+                <div class="kn-body">
+                  <div class="kn-side">
+                    <div class="kn-thumb kn1" id="sl1"><span>QUANTUM COMPUTING</span></div>
+                    <div class="kn-thumb kn2" id="sl2"><i class="w60"></i><i class="l85"></i><i class="l75"></i></div>
+                    <div class="kn-thumb kn3" id="sl3"><i class="half"></i><i class="half grad"></i></div>
+                    <div class="kn-thumb kn4" id="sl4"><i class="w50"></i><span class="dots"><i class="d1"></i><i class="d2"></i><i class="d3"></i></span></div>
+                  </div>
+                  <div class="kn-canvas">
+                    <div class="kn-slide">
+                      <p class="kn-title" id="knTitle">Quantum Computing</p>
+                      <p class="kn-sub" id="knSub">A practical introduction</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- TINKER ORB -->
+              <div class="tinker-orb" id="tinkerOrb">
+                <div class="orb-core"></div>
+                <div class="orb-ring" id="orbRing" aria-hidden="true"></div>
+              </div>
+
+              <!-- TINKER PANEL -->
+              <div class="tinker-panel" id="panel">
+                <div class="tp-header">
+                  <div class="tp-id">
+                    <div class="tp-avatar"><span class="av"></span><span class="status" aria-hidden="true"></span></div>
+                    <div><p class="tp-name">Tinker</p><p class="tp-status">Online · ready to help</p></div>
+                  </div>
+                  <span class="tp-close" aria-hidden="true">×</span>
+                </div>
+                <div class="tp-tabs"><span class="on">Chat</span><span>Automations</span><span>Settings</span></div>
+
+                <div class="tp-body">
+                  <!-- greeting -->
+                  <div class="tp-greet" id="greet">
+                    <span class="greet-orb" aria-hidden="true"></span>
+                    <p class="greet-hi">Good evening!</p>
+                    <p class="greet-sub">I'm Tinker. Talk or type in any language — I'll reply in the same one.</p>
+                    <div class="chips">
+                      <span>Open calculator</span><span>What's the weather?</span><span>Search Google</span><span>How are you?</span><span>Namaste</span>
+                    </div>
+                  </div>
+
+                  <!-- convo 1: arrays -->
+                  <div class="tp-convo" id="convo1">
+                    <div class="convo-scroll" id="chatScroll">
+                      <div class="msg user" id="userMsg1">Teach me arrays in simple terms</div>
+                      <div class="msg bot thinking" id="thinking"><span></span><span></span><span></span></div>
+                      <div class="msg bot answer" id="answer">
+                        <div id="a1"><p class="b">Arrays, simply</p><p>An array is an ordered list of values stored under one name.</p></div>
+                        <div id="a2"><p>•&nbsp; Each item sits at a position called an <strong>index</strong><br>•&nbsp; Counting starts at 0 — <code>arr[0]</code> is the first item</p></div>
+                        <div id="a3" class="code">fruits = ["apple", "banana", "mango"]<br>fruits[1]&nbsp; <span class="cmt">→ "banana"</span></div>
+                        <p id="a4">Think of it as a row of numbered boxes. Want a quick exercise?</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- convo 2: spoken spotify -->
+                  <div class="tp-convo center" id="convo2">
+                    <div class="voice-wave" id="v2Wave">
+                      <div class="wave"><span></span><span></span><span></span><span></span><span></span></div>
+                      <p class="listening">Listening…</p>
+                    </div>
+                    <p class="voice-text" id="v2Text"></p>
+                    <div class="msg bot" id="reply2">Opening Spotify.</div>
+                  </div>
+
+                  <!-- convo 3: youtube -->
+                  <div class="tp-convo" id="convo3">
+                    <div class="msg user" id="user3">Play the latest Latent episode on YouTube</div>
+                    <div class="msg bot" id="reply3">Searching YouTube…</div>
+                  </div>
+
+                  <!-- convo 4: keynote -->
+                  <div class="tp-convo" id="convo4">
+                    <div class="msg user" id="user4">Create a presentation on quantum computing</div>
+                    <div class="msg bot" id="reply4">Creating your deck…</div>
+                  </div>
+
+                  <!-- voice mode -->
+                  <div class="tp-convo center" id="voiceMode">
+                    <div class="wave big"><span></span><span></span><span></span><span></span><span></span></div>
+                    <p class="voice-text" id="voiceText"></p>
+                    <div class="msg bot wide" id="voiceReply">Tomorrow looks clear — around 24°, light breeze in the afternoon.</div>
+                  </div>
+                </div>
+
+                <div class="tp-inputbar">
+                  <div class="tp-input">
+                    <span class="tp-placeholder" id="inputText">Message Tinker…<span class="caret" id="caret"></span></span>
+                    <span class="tp-btn mic" id="micBtn" aria-hidden="true"><i></i></span>
+                    <span class="tp-btn talk" id="talkBtn" aria-hidden="true"><i></i><i></i><i></i></span>
+                    <span class="tp-btn send" id="sendBtn" aria-hidden="true">↑</span>
+                  </div>
+                  <p class="voice-on">🔊 Voice on</p>
+                </div>
+              </div>
+
+              <!-- cursor -->
+              <div class="cursor" id="cursor" aria-hidden="true">
+                <svg width="20" height="22" viewBox="0 0 20 22"><path d="M4 1 L4 17 L8 13.5 L10.6 19.5 L13.4 18.3 L10.8 12.4 L16 12 Z" fill="#FFFFFF" stroke="#1D1D1F" stroke-width="1.2"/></svg>
+              </div>
+
+              <!-- screen dim -->
+              <div class="screen-dim" id="screenDim" aria-hidden="true"></div>
+            </div>
+
+            <div class="mb-notch" aria-hidden="true"></div>
+
+            <!-- lid back -->
+            <div class="mb-lidback" id="lidBack" aria-hidden="true">
+              <span class="sheen"></span>
+              <span class="logo-glow"></span>
+            </div>
+          </div>
+
+          <div class="floor-shadow" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ CAPABILITIES ═══════ -->
+  <section class="section center-text" id="capabilities">
+    <p class="kicker">Capabilities</p>
+    <h2>One orb. Every kind of task.</h2>
+    <p class="section-sub">Select a capability to see what asking Tinker looks like.</p>
+
+    <div class="orbit" id="orbit">
+      <div class="orbit-ring r1" aria-hidden="true"></div>
+      <div class="orbit-ring r2" aria-hidden="true"></div>
+      <div class="orbit-orb" aria-hidden="true"></div>
+      <!-- capability buttons injected by script.js -->
+    </div>
+
+    <div class="cap-preview">
+      <p class="cap-cmd"><span class="accent">›</span> <span id="capCmd"></span></p>
+      <p class="cap-reply" id="capReply"></p>
+    </div>
+  </section>
+
+  <!-- ═══════ HOW IT WORKS ═══════ -->
+  <section class="section center-text narrow" id="how">
+    <p class="kicker">How it works</p>
+    <h2>From words to action.</h2>
+
+    <div class="flow">
+      <div class="flow-card" data-flow="0"><p class="b">You ask</p><p class="sub">Type or speak — in any language.</p></div>
+      <div class="flow-arrow" data-flow-arrow="0" aria-hidden="true"></div>
+      <div class="flow-card" data-flow="1"><p class="b">Tinker understands</p><p class="sub">The AI works out what you actually mean.</p></div>
+      <div class="flow-arrow" data-flow-arrow="1" aria-hidden="true"></div>
+      <div class="flow-card" data-flow="2"><p class="b">Tinker chooses the action</p><p class="sub">An answer, an app, a search, a deck — it picks the right tool.</p></div>
+      <div class="flow-arrow" data-flow-arrow="2" aria-hidden="true"></div>
+      <div class="flow-card final" data-flow="3"><p class="b">Your Mac executes it</p><p class="sub">The action runs natively, right on your desktop.</p></div>
+    </div>
+  </section>
+
+  <!-- ═══════ PLAYGROUND ═══════ -->
+  <section class="section center-text" id="playground">
+    <p class="kicker">Playground</p>
+    <h2>Try a command.</h2>
+    <p class="section-sub">Click one — the simulated desktop responds.</p>
+
+    <div class="pg-buttons" id="pgButtons"></div>
+
+    <div class="pg-desktop">
+      <div class="pg-menubar"><span class="l"><span class="apple"></span><span class="b">Finder</span><span>File</span><span>Edit</span></span><span>Wed 9:41 AM</span></div>
+      <div class="pg-dock" aria-hidden="true"><span class="d1"></span><span class="d2"></span><span class="d3"></span><span class="d4"></span></div>
+
+      <div class="pg-win pg-spotify" id="pgSpotify">
+        <div class="win-titlebar dark sm"><span class="tl r"></span><span class="tl y"></span><span class="tl g"></span><span class="win-title">Spotify</span></div>
+        <div class="pg-spot-row">
+          <span class="art"></span>
+          <div class="grow"><p>Daily Mix 1</p><div class="bar"><div style="width:42%"></div></div></div>
+          <span class="tri" aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <div class="pg-win pg-youtube" id="pgYoutube">
+        <div class="win-titlebar light sm"><span class="tl r"></span><span class="tl y"></span><span class="tl g"></span><span class="url">youtube.com</span></div>
+        <div class="pg-yt-video"><span class="yt-bigplay sm"><i></i></span></div>
+        <div class="pg-yt-meta"><div class="bar"><div style="width:28%"></div></div><p>Latent — Episode 42</p></div>
+      </div>
+
+      <div class="pg-win pg-keynote" id="pgKeynote">
+        <div class="win-titlebar lighter sm"><span class="tl r"></span><span class="tl y"></span><span class="tl g"></span><span class="win-title dim">Keynote</span></div>
+        <div class="pg-kn">
+          <div class="pg-kn-side"><span class="on"></span><span></span><span></span></div>
+          <div class="pg-kn-canvas"><p>The Roman Empire</p></div>
+        </div>
+      </div>
+
+      <div class="pg-panel">
+        <div class="pg-panel-head">
+          <span class="av" aria-hidden="true"></span><span class="b">Tinker</span><span class="on">Online</span>
+        </div>
+        <div class="pg-panel-body">
+          <div class="msg user sm" id="pgUser"><span id="pgTyped"></span><span class="caret sm" id="pgCaret"></span></div>
+          <div class="msg bot sm" id="pgReply"></div>
+        </div>
+      </div>
+
+      <div class="pg-orb" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- ═══════ PRIVACY ═══════ -->
+  <section class="section center-text" id="privacy">
+    <p class="kicker">Private by design</p>
+    <h2>Your keys. Your Mac. Your business.</h2>
+    <p class="section-sub">Tinker runs on your desktop — not in our cloud.</p>
+    <div class="privacy-grid">
+      <div class="privacy-item"><p class="b">Keys stay local</p><p class="sub">Your AI API key is stored on your Mac during setup — it is never uploaded to our servers.</p></div>
+      <div class="privacy-item"><p class="b">No data selling</p><p class="sub">Tinker does not sell your data. Full stop.</p></div>
+      <div class="privacy-item"><p class="b">Native macOS</p><p class="sub">A lightweight app built for macOS — instant from the moment you click the orb.</p></div>
+    </div>
+  </section>
+
+  <!-- ═══════ DOWNLOAD CTA ═══════ -->
+  <section class="cta" id="download">
+    <div class="cta-glow" aria-hidden="true"></div>
+    <span class="cta-orb" aria-hidden="true"></span>
+    <h2>Your desktop should do more<br>than wait for clicks.</h2>
+    <p class="cta-sub">Ask. Automate. Create. Control.</p>
+    <div class="hero-ctas center">
+      <a href="#" class="btn btn-light" title="Notify list coming soon"> Coming soon — get notified</a>
+      <a href="#demo" class="btn btn-ghost">Watch the demo</a>
+    </div>
+    <p class="fine">Tinker is in final development — launching soon. Free at launch · macOS 13 or later</p>
+  </section>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer class="footer">
+    <div class="nav-brand"><span class="orb-dot sm" aria-hidden="true"></span><span class="nav-name sm">Tinker</span></div>
+    <nav aria-label="Footer" class="footer-links">
+      <a href="#product">Product</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#" title="Contact coming soon">Contact</a>
+    </nav>
+    <p class="fine">© 2026 Tinker Desktop</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
